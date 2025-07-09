@@ -92,7 +92,7 @@ export default function LoginScreen() {
           style={{ width: 200 , height: 200, alignSelf: 'center', marginBottom: 30 }}
         />
         
-        {loading && ( //TODO: Add a loading spinner
+        {loading && (
           <View style={styles.container}>
             <Text style={styles.text}>Loading...</Text>
           </View>
@@ -119,7 +119,8 @@ export default function LoginScreen() {
             />
             <Text style={[
               styles.linkText, {
-                textAlign:"left"
+                textAlign:"left",
+                fontSize: 16,
               }
               ]}>
                 Forgot Password?
@@ -144,12 +145,22 @@ export default function LoginScreen() {
               <Text style={[styles.footerText, {marginBottom:16}]}>
                 Don't have an account?          
               </Text>
-              <Text style={[
+              <TouchableOpacity style={[
               styles.linkText, {
-                justifyContent:"center"
+                justifyContent:"center",
+                borderRadius: 8,
+                width: '30%',
+                padding: 8,
+                backgroundColor: '#a61e1e',
+                alignSelf: 'center',
               }
               ]} onPress={() => router.push('/signup')}>
-                Sign up
+                <Text style={[styles.buttonText, {textAlign: 'center'}]}>
+                  Sign up
+                </Text>
+              </TouchableOpacity>
+              <Text style={[styles.footerText, {marginTop: 0, marginBottom: 16}]}>
+                or
               </Text>
               <GoogleLogin />         
             </View>

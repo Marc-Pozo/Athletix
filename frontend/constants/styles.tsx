@@ -44,9 +44,12 @@ export const styles = StyleSheet.create({
     borderWidth: 1,
     fontSize: 16,
     color: colors.text,
+    height: 50, 
+    width: '100%',
   },
   button: {
     backgroundColor: colors.primary,
+    width: '100%',
     paddingVertical: 14,
     borderRadius: 8,
     alignItems: 'center',
@@ -59,16 +62,16 @@ export const styles = StyleSheet.create({
     fontWeight: '600',
   },
   footerText: {
-    marginTop: 8,
+    margin: 8,
     textAlign: 'center',
     color: colors.text,
-    fontSize: 16,
+    fontSize: 20,
   },
   linkText: {    
     color: colors.primary,
     fontWeight: '600',
     textAlign: 'center',
-    fontSize: 16,
+    fontSize: 20,
     marginBottom: 16
   },
   text: {

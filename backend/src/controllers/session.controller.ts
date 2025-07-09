@@ -69,6 +69,36 @@ export class SessionController {
 		}
 	}
 
+	public async getSessionByToken(token: string): Promise<Session | null> {
+		try {
+			console.log(`[SessionController/getSessionByToken] Fetching session for token: ${token}`);
+			const result = await db.query(
+				`SELECT 
+					sessions.id, 
+					sessions.user_id, 
+					sessions.expires_at, 
+					users.id 
+				FROM sessions
+				WHERE token = $1`,
+				[token]
+			);
+			if (result.rows.length === 0) {
+				console.warn(`[SessionController/getSessionByToken] No session found for token: ${token}`);
+				return null;
+			}
+			const row = result.rows[0];
+			const session: Session = {
+				id: row.id,
+				user_id: row.user_id,
+				expires_at: new Date(row.expires_at)
+			};
+			return session;
+		} catch (error) {
+			console.error(`[SessionController/getSessionByToken] Error fetching session for token ${token}:`, error);
+			throw new Error('Database query failed');
+		}
+	}
+
     public generateSessionToken(): string {
 		const bytes = randomBytes(20); // Node.js way to generate secure random bytes
 		const token = base32.encode(bytes).replace(/=+$/, '').toLowerCase(); // RFC4648-style, no padding

@@ -71,7 +71,7 @@ router.post('/login/:token', async (req: Request, res: Response) => {
             return;
         }
         console.log(`User logged in with token successfully`);
-        res.status(200).json({message : 'Token validated successfully'});
+        res.status(200).json({ user_id: session.session.user_id });
         return;
     } catch (error) {
         console.error('Error logging in:', error);

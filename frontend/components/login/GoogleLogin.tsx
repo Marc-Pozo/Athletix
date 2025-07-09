@@ -1,5 +1,10 @@
 import * as WebBrowser from 'expo-web-browser';
-import { Button, Alert } from 'react-native';
+import { 
+    TouchableOpacity,
+    Alert,
+    Text,
+    Image,
+} from 'react-native';
 import { useRouter } from 'expo-router';
 import { storeTokenSecurely } from '@/utils/TokenStorage';
 
@@ -25,7 +30,7 @@ export default function GoogleLogin() {
                 // You can now store the token securely
                 storeTokenSecurely(token);
                 console.log('Login success');
-                router.replace('/main');    
+                router.replace({ pathname: '/completesignup', params: { token } });
             }
             else if (result.type === 'cancel' || result.type === 'dismiss') {
                 console.log('User cancelled the login');
@@ -42,6 +47,11 @@ export default function GoogleLogin() {
     };
 
     return (
-        <Button title="Sign in with Google" onPress={handleGoogleLogin} />
+        <TouchableOpacity onPress={handleGoogleLogin}>
+            <Image
+                source={require('../../assets/images/ios_light_google.png')}
+                style={{justifyContent: 'center', alignSelf: 'center'}}
+            />
+        </TouchableOpacity>
     );
 }

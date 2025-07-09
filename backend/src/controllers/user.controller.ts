@@ -13,7 +13,8 @@ const SALT_ROUNDS = 10;
 export class UserController {
 
     private allowedFields = [
-        'email', 'display_name', 'first_name', 'last_name', 'username', 'date_of_birth'
+        'email', 'display_name', 'first_name', 'last_name', 'username', 'date_of_birth', 'location',
+        'profile_pic', 'sports_preferences', 'visibility', 'password'
     ];
 
     public async createUser(data: Partial<User>) : Promise<Session | null> {

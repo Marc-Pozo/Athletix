@@ -29,6 +29,22 @@ export const verifySecureToken = async () => {
   }
 };
 
+export const getSecureToken = async () => {
+  try {
+    const token = await SecureStore.getItemAsync('session_token');
+    if (token) {
+      console.log('Secure token retrieved:', token);
+      return token;
+    } else {
+      console.warn('No secure token found');
+      return null;
+    }
+  } catch (e) {
+    console.error('Failed to retrieve secure token', e);
+    return null;
+  }
+}
+
 export const removeSecureToken = async () => {
   try {
     await SecureStore.deleteItemAsync('session_token');

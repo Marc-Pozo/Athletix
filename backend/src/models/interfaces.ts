@@ -9,7 +9,7 @@ export interface User {
     date_of_birth: Date;
     sports_preferences: string[];
     profile_pic: string;    
-    location: string | null;
+    location: string[] | null;
     visibility: boolean;
     created_at: Date;
     updated_at: Date;

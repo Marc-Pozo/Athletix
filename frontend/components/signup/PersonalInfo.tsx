@@ -1,4 +1,3 @@
-// First name, last name, D.O.B.
 import React, { useState } from 'react';
 import { styles } from '../../constants/styles';
 import DateOfBirthPicker from '../pickers/DateOfBirthPicker';

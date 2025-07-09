@@ -29,7 +29,7 @@ passport.use(new Strategy({
         last_name: profile.name?.familyName || '',
         username: `${profile.displayName || ''}_${uuidv4().slice(0, 8)}`,
         profile_pic: profile.photos ? profile.photos[0].value : '1752016295786_logo.png',
-        location: '',
+        location: ['', ''],
       };
       const userSession = await userController.createGoogleUser(newUser);
       return cb(null, {...newUser, ...userSession});
