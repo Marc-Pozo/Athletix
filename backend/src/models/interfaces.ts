@@ -7,18 +7,12 @@ export interface User {
     last_name: string;
     username: string;
     date_of_birth: Date;
+    sports_preferences: string[];
+    profile_pic: string;    
+    location: string | null;
+    visibility: boolean;
     created_at: Date;
     updated_at: Date;
-}
-
-export interface CreateUserDTO {
-  email: string;
-  password: string;
-  display_name: string;
-  first_name: string;
-  last_name: string;
-  username: string;
-  date_of_birth: string | Date;
 }
 
 export interface Post {
@@ -38,6 +32,31 @@ export interface Post {
     created_at: Date;
     updated_at: Date;
 }
+
+export interface Session {
+    id: string;
+    user_id: number;
+    expires_at: Date;
+    token?: string;
+}
+
+export interface Location {
+    id : number;
+    name: string;
+    address: string;
+    sports_offered: string[];
+    has_office: boolean;
+    lat: number;
+    long: number;
+    created_at: Date;
+    updated_at: Date;
+}
+
+export type SessionValidationResult =
+    | { session: Session; user: User }
+    | { session: null; user: null };
+
+
 
 export function sanitizeUserData(user: User) {
     return {

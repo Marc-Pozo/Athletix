@@ -2,14 +2,14 @@ import { Router, Request, Response } from 'express';
 import {PostController} from '../controllers/post.controller';
 
 const router = Router();
-const controller = new PostController();
+const postController = new PostController();
 
 // Route to get all posts from a user
 router.get('/user/:userId', async (req: Request, res: Response) => {
     try {
         const userId = req.params.userId;
 
-        const posts = await controller.getPostsByUserId(Number(userId));
+        const posts = await postController.getPostsByUserId(Number(userId));
         
         if (posts.length === 0) {
             res.status(404).json({ message: 'No posts found for this user' });
@@ -29,7 +29,7 @@ router.get('/:postId', async (req: Request, res: Response) => {
     try {
         const postId = req.params.postId;
 
-        const post = await controller.getPostById(Number(postId));
+        const post = await postController.getPostById(Number(postId));
         
         if (!post) {
             res.status(404).json({ message: 'No post found for this id' });
@@ -54,7 +54,7 @@ router.post('/', async (req: Request, res: Response) => {
             return;
         }
 
-        const newPost = await controller.createPost(postData);
+        const newPost = await postController.createPost(postData);
         if (!newPost) {
             res.status(400).json({ message: 'Post creation failed' });
             return;
@@ -79,7 +79,7 @@ router.put('/:postId', async (req: Request, res: Response) => {
             return;
         }
 
-        const updatedPost = await controller.updatePost(Number(postId), postData);
+        const updatedPost = await postController.updatePost(Number(postId), postData);
         
         if (!updatedPost) {
             res.status(404).json({ message: 'No post found for this id' });
@@ -93,6 +93,5 @@ router.put('/:postId', async (req: Request, res: Response) => {
         res.status(500).json({ message: 'Internal server error' });
     }
 });
-
 
 export default router;

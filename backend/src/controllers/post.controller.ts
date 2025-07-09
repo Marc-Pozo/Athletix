@@ -1,4 +1,4 @@
-import pool from '../db/index';
+import pool from '../db/db';
 import { Post } from '../models/interfaces';
 import { updateById } from '../db/utils';
 

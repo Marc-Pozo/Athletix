@@ -3,12 +3,12 @@ import { UserController } from '../controllers/user.controller';
 import { User } from '../models/interfaces';
 
 const router = Router();
-const controller = new UserController();
+const userController = new UserController();
 // Route to get user information by ID
 router.get('/:id', async (req: Request, res: Response) => {
     try {
         const userId = req.params.id;
-        const user = await controller.getUserById(Number(userId));
+        const user = await userController.getUserById(Number(userId));
 
         if (!user) {
             res.status(404).json({ message: 'User not found' });
@@ -35,7 +35,7 @@ router.put('/:id', async (req: Request, res: Response) => {
             return;
         }
 
-        const updatedUser = await controller.updateUser(Number(userId), userData);
+        const updatedUser = await userController.updateUser(Number(userId), userData);
 
         if (!updatedUser) {
             res.status(404).json({ message: 'User not found' });
@@ -55,7 +55,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
     try {
         const userId = req.params.id;
 
-        const isDeleted = await controller.deleteUser(Number(userId));
+        const isDeleted = await userController.deleteUser(Number(userId));
         if (!isDeleted) {
             res.status(404).json({ message: 'User not found' });
             return;
@@ -73,7 +73,7 @@ router.delete('/:id', async (req: Request, res: Response) => {
 router.get('/username/:username', async (req: Request, res: Response) => {
     try {
         const username = req.params.username;
-        const users = await controller.getUsersByUsername(username) as Partial<User[]>; // Assuming getUserById can handle username
+        const users = await userController.getUsersByUsername(username) as Partial<User[]>; // Assuming getUserById can handle username
 
         if (!users || users.length === 0) {
             res.status(404).json({ message: 'User not found' });
