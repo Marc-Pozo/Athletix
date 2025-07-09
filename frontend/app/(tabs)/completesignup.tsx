@@ -3,7 +3,7 @@ import { styles } from '../../constants/styles';
 import DateOfBirthPicker from '@/components/pickers/DateOfBirthPicker';
 import Location from '@/components/signup/UserLocation';
 import * as LocationType from 'expo-location';
-import { router, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
 import {
     SafeAreaView,
@@ -18,7 +18,7 @@ export default function CompleteSignup() {
     const [dob, setDob] = useState('');
     const [selectedSports, setSelectedSports] = useState<Set<string>>(new Set());
     const [location, setLocation] = useState<LocationType.LocationObject | null>(null);
-    const [userId, setUserId] = useState<string | null>(null);
+    const [user_id, setUser_id] = useState<string | null>(null);
     const [error, setError] = useState('');
     const {token} = useLocalSearchParams();
     const router = useRouter();
@@ -66,7 +66,7 @@ export default function CompleteSignup() {
             location: [location?.coords.latitude || 0, location?.coords.longitude || 0]
         };
 
-        const updateUser = await fetch(`http://192.168.1.65:3000/api/users/${userId}`, {
+        const updateUser = await fetch(`http://192.168.1.65:3000/api/users/${user_id}`, {
             method: 'PUT',
             headers: {
                 'Content-Type': 'application/json',
@@ -77,10 +77,8 @@ export default function CompleteSignup() {
         if (!updateUser.ok) {
             const errorData = await updateUser.json();
             throw new Error(errorData.message || 'Error updating user data');
-        }
-
-        router.replace('/main');
-
+        };
+        router.replace({pathname: '/main', params: {token, user_id}});
     };
 
     useEffect(() => {        
@@ -99,7 +97,7 @@ export default function CompleteSignup() {
 
             const data = await response.json();  
             if (data && data.user_id) {
-                setUserId(data.user_id);
+                setUser_id(data.user_id);
             }            
         }        
         getUserId();

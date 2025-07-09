@@ -10,8 +10,37 @@ import {
   KeyboardAvoidingView,
   Image
 } from 'react-native';
+import { getSecureToken } from '@/utils/TokenStorage';
 
-export default function Discover() {
+interface Props{
+  lat: string,
+  long: string,
+  token: string
+}
+
+export default function Discover({ lat, long, token } : Props) {
+
+  const [query, setQuery] = useState('');
+  const [has_office, setHasOffice] = useState(null);
+  const [radius, setRadius] = useState(1000);
+  const [pageSize, setPageSize] = useState(10);
+  const [page, setPage] = useState(0);
+
+  const onSearch = async () => {
+    const response = await fetch(`http://192.168.1.65:3000/api/locations/search?query=${query}&page=${page}&pageSize=${pageSize}&lat=${lat}&long=${long}&radius=${radius}`, {
+        method: 'GET',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+    });
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Search failed');
+    }
+    console.log(data);    
+  }
+
 
   return (
     <KeyboardAvoidingView behavior="padding" style={{ flex: 1, flexDirection: 'column' }}>
@@ -43,7 +72,10 @@ export default function Discover() {
           ]}
           placeholder="Search"
           placeholderTextColor={styles.input.color}
+          value={query}
+          onChangeText={setQuery}
           returnKeyType="search"
+          onSubmitEditing={() => onSearch()}
         />
         <TouchableOpacity style={[
           {

@@ -50,6 +50,27 @@ export interface Location {
     long: number;
     created_at: Date;
     updated_at: Date;
+    image_uri: string;
+}
+
+
+export interface SearchLocationFilters {
+    query?: string;
+    sports_offered?: string[];
+    has_office?: boolean;
+    lat?: number;
+    long?: number;
+    radius?: number;
+    page?: number;
+    pageSize?: number;
+}
+
+export interface PaginatedResult<T> {
+    data: T[];
+    total: number;
+    page: number;
+    pageSize: number;
+    totalPages: number;
 }
 
 export type SessionValidationResult =
@@ -67,6 +88,10 @@ export function sanitizeUserData(user: User) {
         last_name: user.last_name,
         username: user.username,
         date_of_birth: user.date_of_birth,
+        sports_preferences: user.sports_preferences,
+        profile_pic: user.profile_pic,
+        location: user.location,
+        visibility: user.visibility,
         created_at: user.created_at,
         updated_at: user.updated_at
     };

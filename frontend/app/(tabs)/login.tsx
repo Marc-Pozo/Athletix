@@ -40,11 +40,11 @@ export default function LoginScreen() {
         throw new Error(errorData.message || 'Login failed');
       }
 
-      const data = await response.json();
-      await storeTokenSecurely(data.token);
+      const {token, user_id} = await response.json();
+      await storeTokenSecurely(token);
 
       console.log('Login success');
-      router.replace('/main');
+      router.replace({pathname: '/main', params: {token, user_id}});
 
     } catch (err : any) {
       setError(err.message);
@@ -62,12 +62,13 @@ export default function LoginScreen() {
         // Grab the token from secure storage and verifys it with the backend
         console.log('Checking for secure token...');
         setLoading(true);
-        const token = await verifySecureToken();
+        const data = await verifySecureToken();
         
-        if (token) {
-          console.log('Token found');
+        if (data) {
+          const token = data.token;
+          const user_id = data.user_id;
           console.log('Login success');
-          router.replace('/main');
+          router.replace({pathname: '/main', params: {token, user_id}});
         } 
         else {
           console.log('No token found');

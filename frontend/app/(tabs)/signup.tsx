@@ -77,11 +77,11 @@ export default function SignupScreen() {
       }
       
       // Store the token
-      const data = await signupResponse.json();
-      await storeTokenSecurely(data.token);
+      const {token, user_id} = await signupResponse.json();
 
+      await storeTokenSecurely(token);
       // Go to main page
-      router.replace('/main');
+      router.replace({pathname: '/main', params: {token, user_id}});
     }
     catch (error) {
       console.error('Signup error:', error);

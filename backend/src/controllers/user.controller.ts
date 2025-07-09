@@ -31,7 +31,7 @@ export class UserController {
                 profile_pic,
                 sports_preferences,
                 location,
-                visibility
+                visibility,
             } = data as User;
             
             const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -48,7 +48,7 @@ export class UserController {
                 ) VALUES (
                     $1, $2, $3, $4, $5,
                     $6, $7, $8, $9,
-                    $10, $11, $12, $13, $14, $15
+                    $10, $11, $12, $13, $14
                 ) RETURNING *`,
                 [
                     normalizedEmail,

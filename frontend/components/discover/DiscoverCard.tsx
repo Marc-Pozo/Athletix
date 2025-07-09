@@ -11,30 +11,36 @@ import {
 export default function DiscoverCard() {
     return (        
         <TouchableOpacity style={{ 
-            margin: 4,
-            borderRadius: 16,
-            flexDirection: 'column',
-            backgroundColor: '#fff', 
-            borderColor: '#ffffff',
+            height: 250,                 
+            marginHorizontal: 8,
+            marginVertical: 16,
+            borderColor: '#ccc',
             borderWidth: 1,
+            borderRadius: 8,
+            overflow: 'hidden',          
+            position: 'relative'
         }}>
             <Image
                 source={require('../../assets/images/temp-basketball.jpg')}
                 style={{
-                    width: 200, // or whatever fixed / max size you want
-                    height: 120,
-                    borderRadius: 8,
+                    position: 'absolute',
+                    top: 0,
+                    left: 0,
+                    right: 0,
+                    bottom: 0,
+                    width: '100%',
+                    height: '100%',
+                    resizeMode: 'cover',
                 }}
             />
             <View style={{ 
-                justifyContent: 'flex-start',
+                flex: 1, 
+                justifyContent: 'flex-end',
             }}>
                 <View style={{
+                    backgroundColor: 'rgba(255,255,255,0.7)', 
                     padding: 8, 
-                    borderRadius: 8,
-                    borderColor: '#000',
-                    borderWidth: 1,
-                    marginHorizontal: 8,
+                    borderRadius: 8 
                 }}>
                     <Text style={{ color: '#000', fontSize: 18, fontWeight: 'bold' }}>Central Park</Text>
                     <Text style={{ color: '#000', marginTop: 4 }}>New York, NY</Text>

@@ -12,8 +12,7 @@ export const storeTokenSecurely = async (token : string) => {
 export const verifySecureToken = async () => {
   try {
     const token = await SecureStore.getItemAsync('session_token');
-    console.log('Secure token:', token);
-
+    
     const response = await fetch(`http://192.168.1.65:3000/api/auth/login/${token}`, {
         method: 'POST',
         headers: {
@@ -21,9 +20,11 @@ export const verifySecureToken = async () => {
         }
     });
 
+    const { user_id } = await response.json();
+
     if(!response.ok)
-        return false;
-    return true;
+        return null;
+    return {token, user_id};
   } catch (e) {
     console.error('Failed to load secure token', e);
   }
@@ -33,7 +34,6 @@ export const getSecureToken = async () => {
   try {
     const token = await SecureStore.getItemAsync('session_token');
     if (token) {
-      console.log('Secure token retrieved:', token);
       return token;
     } else {
       console.warn('No secure token found');
