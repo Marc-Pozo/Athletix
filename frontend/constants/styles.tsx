@@ -15,7 +15,6 @@ export const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    padding: 24,
     justifyContent: 'center',
   },
   title: {
@@ -42,7 +41,7 @@ export const styles = StyleSheet.create({
     borderColor: colors.border,
     outlineColor: colors.border,
     borderWidth: 1,
-    fontSize: 16,
+    fontSize: 20,
     color: colors.text,
     height: 50, 
     width: '100%',

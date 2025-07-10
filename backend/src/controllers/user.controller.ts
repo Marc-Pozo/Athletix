@@ -48,7 +48,7 @@ export class UserController {
                 ) VALUES (
                     $1, $2, $3, $4, $5,
                     $6, $7, $8, $9,
-                    $10, $11, $12, $13, $14
+                    $10, $11::text[], $12, $13, $14
                 ) RETURNING *`,
                 [
                     normalizedEmail,
@@ -61,7 +61,7 @@ export class UserController {
                     timestamp,
                     timestamp,
                     profile_pic,
-                    sports_preferences,
+                    Array.isArray(sports_preferences) ? sports_preferences : [],
                     location,
                     visibility,
                     false

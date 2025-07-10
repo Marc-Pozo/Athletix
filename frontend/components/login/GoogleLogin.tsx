@@ -2,7 +2,6 @@ import * as WebBrowser from 'expo-web-browser';
 import { 
     TouchableOpacity,
     Alert,
-    Text,
     Image,
 } from 'react-native';
 import { useRouter } from 'expo-router';
@@ -30,7 +29,7 @@ export default function GoogleLogin() {
                 // You can now store the token securely
                 storeTokenSecurely(token);
                 console.log('Login success');
-                router.replace({ pathname: '/completesignup', params: { token } });
+                router.replace({ pathname: '/finishSignup', params: { token } });
             }
             else if (result.type === 'cancel' || result.type === 'dismiss') {
                 console.log('User cancelled the login');

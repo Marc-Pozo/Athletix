@@ -28,7 +28,6 @@ export async function tokenMiddleware (req : Request, res : Response, next : Nex
                  res.status(401).json({ message: 'Invalid session' });
                 return;
             }
-            console.log("Token validated successfully!")
             next();
         })
         .catch(err => {

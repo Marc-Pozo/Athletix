@@ -3,14 +3,12 @@ import { useRouter } from 'expo-router';
 import { styles } from '../../constants/styles';
 import { storeTokenSecurely, verifySecureToken } from '@/utils/TokenStorage';
 import GoogleLogin from '@/components/login/GoogleLogin';
+import Screen from '@/components/common/Screen';
 import {
   Image,
   Text,
   TextInput,
   TouchableOpacity,
-  SafeAreaView,
-  KeyboardAvoidingView,
-  Platform,
   View
 } from 'react-native';
 
@@ -83,12 +81,8 @@ export default function LoginScreen() {
   }, []);
   
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <KeyboardAvoidingView
-        style={styles.container}
-        behavior={Platform.OS === 'ios' ? 'padding' : undefined}
-      >
-        <Image
+    <Screen screenPadding={24}>
+      <Image
           source={require('../../assets/images/logo.png')}
           style={{ width: 200 , height: 200, alignSelf: 'center', marginBottom: 30 }}
         />
@@ -166,8 +160,7 @@ export default function LoginScreen() {
               <GoogleLogin />         
             </View>
           </View>
-        )}
-      </KeyboardAvoidingView>
-    </SafeAreaView>
+        )}        
+    </Screen>
   );
 }

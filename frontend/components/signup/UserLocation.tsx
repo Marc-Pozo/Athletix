@@ -3,7 +3,7 @@ import { View, Text, Button, Alert } from 'react-native';
 import * as LocationType from 'expo-location';
 
 type Props = {
-  setLocation: React.Dispatch<React.SetStateAction<LocationType.LocationObject | null>>;
+  setLocation: React.Dispatch<React.SetStateAction<string[]>>;
 };
 
 export default function Location({ setLocation }: Props) {
@@ -15,8 +15,7 @@ export default function Location({ setLocation }: Props) {
         }
 
         let location = await LocationType.getCurrentPositionAsync({});
-        console.log('Location:', location);
-        setLocation(location);
+        setLocation([`${location.coords.latitude}`, `${location.coords.longitude}`]);
     };
 
     return (

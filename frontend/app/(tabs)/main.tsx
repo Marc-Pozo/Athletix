@@ -3,15 +3,13 @@ import { styles } from '../../constants/styles';
 import Footer from '../../components/main/Footer';
 import Home from '../../components/main/Home';
 import Discover from '../../components/main/Discover';
-import Post from '../../components/main/Post';
+import Session from '../../components/main/Session';
 import Stats from '../../components/main/Stats';
 import Profile from '../../components/main/Profile';
 import { User } from '@/constants/interfaces';
 import { useLocalSearchParams } from 'expo-router';
-import {
-    SafeAreaView,
-    View
-} from 'react-native';
+import Screen from '@/components/common/Screen';
+import { View } from 'react-native';
 
 
 export default function Main() {
@@ -42,23 +40,16 @@ export default function Main() {
 
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View
-        style={[
-          styles.container, 
-          {
-            padding: 0
-          }
-      ]}
-      >
+    <View style={styles.safeArea}>
+      <View style={[styles.container,{ marginTop: 48}]}>
         {navigation === 0 && <Home />}
         {navigation === 1 && <Discover lat={user?.location?.[0] || ''} long={user?.location?.[1] || ''} token={token as string} />}
-        {navigation === 2 && <Post />}
+        {navigation === 2 && <Session />}
         {navigation === 3 && <Stats />}
-        {navigation === 4 && <Profile />}
-
+        {navigation === 4 && <Profile user={user}/>}
       </View>
       <Footer setNavigation={setNavigation} />
-    </SafeAreaView>
+    </View>
+    
   );
 }

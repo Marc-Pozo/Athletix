@@ -94,6 +94,8 @@ export class LocationController {
 
     public async searchLocations(filters : SearchLocationFilters): Promise<PaginatedResult<Location>> {
         try {
+
+            console.log(`[LocationController/searchLocations] Searching with these filters ${filters.query}`);
             let baseQuery = `SELECT * FROM locations`;
             let countQuery = `SELECT COUNT(*) FROM locations`;
             let whereClauses: string[] = [];

@@ -2,41 +2,25 @@ import React, { useState, useEffect } from 'react';
 import { styles } from '../../constants/styles';
 import DateOfBirthPicker from '@/components/pickers/DateOfBirthPicker';
 import Location from '@/components/signup/UserLocation';
-import * as LocationType from 'expo-location';
 import { useRouter } from 'expo-router';
 import { useLocalSearchParams } from 'expo-router';
+import Screen from '@/components/common/Screen';
+import SportsSelector from '@/components/common/SportsSelector';
 import {
-    SafeAreaView,
     View,
     TouchableOpacity,
     Text,
-    ScrollView
 } from 'react-native';
 
 // Used to grab date of birth, sports preferences, and  location
-export default function CompleteSignup() {
+export default function FinishSignup() {
     const [dob, setDob] = useState('');
     const [selectedSports, setSelectedSports] = useState<Set<string>>(new Set());
-    const [location, setLocation] = useState<LocationType.LocationObject | null>(null);
+    const [location, setLocation] = useState(['']);
     const [user_id, setUser_id] = useState<string | null>(null);
     const [error, setError] = useState('');
     const {token} = useLocalSearchParams();
     const router = useRouter();
-
-    // TODO Fetch sports list from API
-    // For now, using a static list
-    const sportsList = [
-        "Basketball",
-        "Soccer",
-        "Tennis",
-        "Baseball",
-        "Volleyball",
-        "Golf",
-        "Hockey",
-        "Swimming",
-        "Running",
-        "Cycling"
-    ];
 
     const toggleSport = (sport: string) => {
         setSelectedSports(prev => {
@@ -63,7 +47,7 @@ export default function CompleteSignup() {
         const userData = {
             date_of_birth: dob,
             sports_preferences: Array.from(selectedSports),
-            location: [location?.coords.latitude || 0, location?.coords.longitude || 0]
+            location: location
         };
 
         const updateUser = await fetch(`http://192.168.1.65:3000/api/users/${user_id}`, {
@@ -105,7 +89,7 @@ export default function CompleteSignup() {
 
 
     return (
-        <SafeAreaView style={styles.safeArea}>
+        <Screen screenPadding={24}>
             <View style={{ flex: 1, justifyContent: 'flex-start' }}>
                 <DateOfBirthPicker
                     value={dob}
@@ -115,39 +99,7 @@ export default function CompleteSignup() {
                 <Text style={styles.text}>
                     Pick some sports you commonly play
                 </Text>
-                <ScrollView contentContainerStyle={[
-                    styles.container,
-                    {
-                        flexDirection: 'row',
-                        flexWrap: 'wrap',
-                        gap: 10,
-                        minHeight: 300
-                    }]}>
-                    {sportsList.map((sport) => {
-                        const isSelected = selectedSports.has(sport);
-                        return (
-                            <TouchableOpacity
-                                key={sport}
-                                style={[
-                                    styles.button, {
-                                    alignSelf: 'flex-start', 
-                                    padding: 15, 
-                                    backgroundColor: isSelected ? '#4CAF50' : '#a61e1e',
-                                    borderColor: isSelected ? '#fff' : '#a61e1e',
-                                    borderWidth: 1,
-                                }
-                                ]}
-                                onPress={() => toggleSport(sport)}
-                            >
-                                <Text style={[
-                                    styles.buttonText
-                                ]}>
-                                    {sport}
-                                </Text>
-                            </TouchableOpacity>
-                        );
-                    })}
-                </ScrollView>
+                <SportsSelector selected={selectedSports} onToggle={toggleSport}/>
                 <Location setLocation={setLocation}/>
                 {error ? (
                     <Text style={{ color: 'red', marginTop: 8, textAlign: 'center' }}>
@@ -158,6 +110,6 @@ export default function CompleteSignup() {
             <TouchableOpacity style={styles.button} onPress={handleNext}>
                 <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>        
-        </SafeAreaView>
+        </Screen>
     );
 }

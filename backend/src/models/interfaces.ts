@@ -11,6 +11,7 @@ export interface User {
     profile_pic: string;    
     location: string[] | null;
     visibility: boolean;
+    is_oauth: boolean;
     created_at: Date;
     updated_at: Date;
 }
@@ -92,6 +93,7 @@ export function sanitizeUserData(user: User) {
         profile_pic: user.profile_pic,
         location: user.location,
         visibility: user.visibility,
+        is_oauth: user.is_oauth,
         created_at: user.created_at,
         updated_at: user.updated_at
     };

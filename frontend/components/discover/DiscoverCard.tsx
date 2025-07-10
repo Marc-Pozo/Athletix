@@ -1,14 +1,18 @@
 import React from 'react';
-import { styles } from '../../constants/styles';
 import {
   Text,
   View,
   Image,
   TouchableOpacity
 } from 'react-native';
+import { Location } from '@/constants/interfaces';
+
+interface Props {
+    location : Location
+}
 
 
-export default function DiscoverCard() {
+export default function DiscoverCard({location} : Props) {
     return (        
         <TouchableOpacity style={{ 
             height: 250,                 
@@ -21,7 +25,7 @@ export default function DiscoverCard() {
             position: 'relative'
         }}>
             <Image
-                source={require('../../assets/images/temp-basketball.jpg')}
+                source={{uri: location.image_uri}}
                 style={{
                     position: 'absolute',
                     top: 0,
@@ -42,9 +46,8 @@ export default function DiscoverCard() {
                     padding: 8, 
                     borderRadius: 8 
                 }}>
-                    <Text style={{ color: '#000', fontSize: 18, fontWeight: 'bold' }}>Central Park</Text>
-                    <Text style={{ color: '#000', marginTop: 4 }}>New York, NY</Text>
-                    <Text style={{ color: '#000', marginTop: 8 }}>A beautiful park in the heart of the city.</Text>
+                    <Text style={{ color: '#000', fontSize: 18, fontWeight: 'bold' }}>{location.name}</Text>
+                    <Text style={{ color: '#000', marginTop: 4 }}>{location.address}</Text>
                     <Image
                         source={require('../../assets/images/SportsIcons/ball-basketball-icon.png')}
                         style={{ 

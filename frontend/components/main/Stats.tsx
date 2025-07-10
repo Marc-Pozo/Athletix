@@ -1,15 +1,23 @@
 import React, { useState } from 'react';
 import { styles } from '../../constants/styles';
 import {
-  SafeAreaView,
+  View,
   Text
 } from 'react-native';
 
 export default function Stats() {
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <Text>Stats</Text>
-    </SafeAreaView>
+    <View style={styles.safeArea}>
+      <Text style={[styles.title, {marginBottom: 0}]}>Stats</Text>
+            <View style={{
+              flex: 1,
+              backgroundColor: 'rgb(48, 42, 42)',
+              borderRadius: 16,
+              marginTop: 16
+            }}>
+      
+            </View>
+    </View>
   );
 }

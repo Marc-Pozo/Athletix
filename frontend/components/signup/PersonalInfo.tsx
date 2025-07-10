@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { styles } from '../../constants/styles';
 import DateOfBirthPicker from '../pickers/DateOfBirthPicker';
+import ErrorMessage from '../common/ErrorMessage';
 import {
     Text,
     TextInput,
@@ -72,11 +73,7 @@ export default function PersonalInfo({ updateField, goToNext }: SignupInfoProps)
                     onChange={setDob}
                     placeholder="Date of Birth (YYYY-MM-DD)"
                 />
-                {error ? (
-                    <Text style={{ color: 'red', marginTop: 8, textAlign: 'center' }}>
-                    {error}
-                    </Text>
-                ) : null}  
+                <ErrorMessage error={error}/>
             </View>
             <TouchableOpacity style={styles.button} onPress={handleNext}>
                 <Text style={styles.buttonText}>Next</Text>

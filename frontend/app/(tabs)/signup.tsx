@@ -1,14 +1,12 @@
-import React, { use, useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
 import  LoginInfo from '../../components/signup/LoginInfo';
 import PersonalInfo from '../../components/signup/PersonalInfo';
 import ProfileInfo from '../../components/signup/ProfileInfo';
-import { styles } from '../../constants/styles';
 import { storeTokenSecurely } from '@/utils/TokenStorage';
+import Screen from '@/components/common/Screen';
 import {
   Image,
-  SafeAreaView,
-  View,
 } from 'react-native';
 
 export default function SignupScreen() {
@@ -23,16 +21,22 @@ export default function SignupScreen() {
       username: '',
       date_of_birth: '',
       sports_preferences: [],
-      visibility: false,
+      visibility: true,
       profile_pic: '',
       profile_pic_uri: new FormData(),
-      location: ''
+      location: ['','']
   });
+
+  useEffect(() => {
+    if(step === 4)
+      handleSignup()
+  }, [step]);
 
   const goToNext = () => setStep(prev => prev + 1);
 
   const updateField = async (field: string, value: any) => {      
     setSignupData(prev => ({ ...prev, [field]: value }));
+    console.log(signupData);
   };
 
   // Handle signup logic
@@ -55,11 +59,11 @@ export default function SignupScreen() {
         }
         // Store the image name
         const json = await imageUploadResponse.json();
-        signupData.profile_pic = json.fileName;
+        signupData.profile_pic = json;
       }
       else{
         // If no profile picture was uploaded, set a default one
-        signupData.profile_pic = '1752016295786_logo.png';
+        signupData.profile_pic = 'uploads/1752016295786_logo.png';
       }
       
       const signupResponse = await fetch('http://192.168.1.65:3000/api/auth/signup', {
@@ -89,10 +93,7 @@ export default function SignupScreen() {
   }
 
   return (
-    <SafeAreaView style={styles.safeArea}>
-      <View
-        style={styles.container}
-      >
+    <Screen screenPadding={24}>
         <Image
           source={require('../../assets/images/logo.png')}
           style={{
@@ -117,11 +118,10 @@ export default function SignupScreen() {
         {step === 3 && (
           <ProfileInfo
             updateField={updateField}
-            handleSignup={handleSignup}
+            goToNext={goToNext}
           />
         )}
-      </View>
-    </SafeAreaView>
+      </Screen>
   );
 }
 

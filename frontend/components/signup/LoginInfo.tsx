@@ -1,13 +1,13 @@
 // Email, password
 import React, {useState} from 'react';
 import { styles } from '../../constants/styles';
+import ErrorMessage from '../common/ErrorMessage';
 import {
     Text,
     TextInput,
     View,
     ScrollView,
-    TouchableOpacity,
-    KeyboardAvoidingView
+    TouchableOpacity
 } from 'react-native';
 
 type SignupInfoProps = {
@@ -53,59 +53,53 @@ export default function LoginInfo({ updateField, goToNext }: SignupInfoProps) {
     };
 
     return (
-        <KeyboardAvoidingView behavior="padding" style={{ flex: 1 }}>
-            <View style={{ flex: 1, justifyContent: 'flex-start' }}>
-                <Text style={styles.title}>
-                    Signup Information
-                </Text>
-                <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>                     
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Email"
-                        placeholderTextColor="#888"
-                        keyboardType="email-address"
-                        autoCapitalize="none"
-                        onChangeText={setEmail}
-                    />
-                    <Text style={styles.text}>Email Address</Text>                    
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Username"
-                        placeholderTextColor="#888"
-                        autoCapitalize="none"
-                        onChangeText={setUsername}
-                    />
-                    <Text style={styles.text}>Your unique @ for Athletix</Text>
-                    
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Password"
-                        placeholderTextColor="#888"
-                        secureTextEntry
-                        autoCapitalize="none"
-                        onChangeText={setPassword}
-                    />
-                    <Text style={styles.text}>Password (8 Character Minimum)</Text>
-                    
-                    <TextInput
-                        style={styles.input}
-                        placeholder="Re-enter Password"
-                        placeholderTextColor="#888"
-                        secureTextEntry
-                        autoCapitalize="none"
-                        onChangeText={setRetypePassword}
-                    />
-                    <Text style={styles.text}>Re-enter Password</Text>
-                    {error ? (
-                        <Text style={{ color: 'red', marginTop: 8, textAlign: 'center' }}>
-                            {error}
-                        </Text>
-                    ) : null}           
-                </ScrollView>
-            </View>
+        <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+            <Text style={styles.title}>
+                Account Information
+            </Text>
+            <ScrollView style={{ flex: 1 }} contentContainerStyle={{ flexGrow: 1 }}>                     
+                <TextInput
+                    style={styles.input}
+                    placeholder="Email"
+                    placeholderTextColor="#888"
+                    keyboardType="email-address"
+                    autoCapitalize="none"
+                    onChangeText={setEmail}
+                />
+                <Text style={styles.text}>Email Address</Text>                    
+                <TextInput
+                    style={styles.input}
+                    placeholder="Username"
+                    placeholderTextColor="#888"
+                    autoCapitalize="none"
+                    onChangeText={setUsername}
+                />
+                <Text style={styles.text}>Your unique @ for Athletix</Text>
+                
+                <TextInput
+                    style={styles.input}
+                    placeholder="Password"
+                    placeholderTextColor="#888"
+                    secureTextEntry
+                    autoCapitalize="none"
+                    onChangeText={setPassword}
+                />
+                <Text style={styles.text}>Password (8 Character Minimum)</Text>
+                
+                <TextInput
+                    style={styles.input}
+                    placeholder="Re-enter Password"
+                    placeholderTextColor="#888"
+                    secureTextEntry
+                    autoCapitalize="none"
+                    onChangeText={setRetypePassword}
+                />
+                <Text style={styles.text}>Re-enter Password</Text>
+                <ErrorMessage error={error}/>           
+            </ScrollView>                
             <TouchableOpacity style={[styles.button]} onPress={handleNext}>
                 <Text style={styles.buttonText}>Next</Text>
             </TouchableOpacity>
-        </KeyboardAvoidingView>
+        </View>
     );
 }
