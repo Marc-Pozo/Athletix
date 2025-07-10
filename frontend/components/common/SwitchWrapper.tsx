@@ -1,4 +1,3 @@
-import { styles } from "@/constants/styles";
 import { Dispatch, SetStateAction } from "react";
 import { 
     View,

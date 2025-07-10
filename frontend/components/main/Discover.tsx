@@ -7,7 +7,6 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  KeyboardAvoidingView,
   Image
 } from 'react-native';
 import { useDebounce } from '@/hooks/DebounceHook';

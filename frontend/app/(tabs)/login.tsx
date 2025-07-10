@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useRouter } from 'expo-router';
-import { styles } from '../../constants/styles';
+import { styles } from '@/constants/styles';
 import { storeTokenSecurely, verifySecureToken } from '@/utils/TokenStorage';
 import GoogleLogin from '@/components/login/GoogleLogin';
 import Screen from '@/components/common/Screen';

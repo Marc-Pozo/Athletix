@@ -1,7 +1,6 @@
 import React from 'react';
 import { Text } from 'react-native';
 
-// TODO Properly define this
 interface Props {
     error: string | null;
 }

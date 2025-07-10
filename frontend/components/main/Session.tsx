@@ -1,7 +1,6 @@
 import React, { useState } from 'react';
 import { styles } from '../../constants/styles';
 import {
-  SafeAreaView,
   Text,
   View
 } from 'react-native';
@@ -17,7 +16,7 @@ export default function Session() {
         borderRadius: 16,
         marginTop: 16
       }}>
-
+        
       </View>
     </View>
   );

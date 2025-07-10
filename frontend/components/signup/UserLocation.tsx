@@ -1,5 +1,9 @@
-import React, { useState } from 'react';
-import { View, Text, Button, Alert } from 'react-native';
+import React from 'react';
+import { 
+    View,  
+    Button, 
+    Alert 
+} from 'react-native';
 import * as LocationType from 'expo-location';
 
 type Props = {

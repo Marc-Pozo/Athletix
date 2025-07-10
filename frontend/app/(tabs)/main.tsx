@@ -1,14 +1,13 @@
 import React, { useState, useEffect } from 'react';
-import { styles } from '../../constants/styles';
-import Footer from '../../components/main/Footer';
-import Home from '../../components/main/Home';
-import Discover from '../../components/main/Discover';
-import Session from '../../components/main/Session';
-import Stats from '../../components/main/Stats';
-import Profile from '../../components/main/Profile';
+import { styles } from '@/constants/styles';
+import Footer from '@/components/main/Footer';
+import Home from '@/components/main/Home';
+import Discover from '@/components/main/Discover';
+import Session from '@/components/main/Session';
+import Stats from '@/components/main/Stats';
+import Profile from '@/components/main/Profile';
 import { User } from '@/constants/interfaces';
 import { useLocalSearchParams } from 'expo-router';
-import Screen from '@/components/common/Screen';
 import { View } from 'react-native';
 
 

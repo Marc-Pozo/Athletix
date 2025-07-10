@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { styles } from '../../constants/styles';
+import { useRouter,useLocalSearchParams } from 'expo-router';
 import DateOfBirthPicker from '@/components/pickers/DateOfBirthPicker';
 import Location from '@/components/signup/UserLocation';
-import { useRouter } from 'expo-router';
-import { useLocalSearchParams } from 'expo-router';
 import Screen from '@/components/common/Screen';
 import SportsSelector from '@/components/common/SportsSelector';
+import { styles } from '@/constants/styles';
 import {
     View,
     TouchableOpacity,
