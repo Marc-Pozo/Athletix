@@ -1,6 +1,6 @@
 import pool from '../db/db';
 import { Post } from '../models/interfaces';
-import { updateById } from '../db/utils';
+import { updateById } from '../utils/utils';
 
 
 export class PostController {

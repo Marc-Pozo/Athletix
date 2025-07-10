@@ -4,7 +4,6 @@ import { SessionController } from '../controllers/session.controller';
 const controller = new SessionController();
 
 export async function tokenMiddleware (req : Request, res : Response, next : NextFunction) {
-
     const authHeader = req.headers['authorization'];
     if (!authHeader)
     {
@@ -24,8 +23,7 @@ export async function tokenMiddleware (req : Request, res : Response, next : Nex
     await controller.validateSessionToken(token)
         .then(result => {
             if (!result.session) {
-                console.log("Bad token");
-                 res.status(401).json({ message: 'Invalid session' });
+                res.status(401).json({ message: 'Invalid session' });
                 return;
             }
             next();

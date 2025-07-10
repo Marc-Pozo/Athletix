@@ -1,7 +1,7 @@
 import { Router, Request, Response } from 'express';
 import { LocationController } from '../controllers/location.controller';
 import { Location, SearchLocationFilters, PaginatedResult } from '../models/interfaces';
-import {string, z} from "zod"
+import { z} from "zod"
 
 const router = Router();
 const locationController = new LocationController();
@@ -17,7 +17,7 @@ const createLocationSchema = z.object({
     image_uri: z.string().min(1, "Image")
 });
 
-
+// Route to create a location
 router.post('/', async (req: Request, res: Response) => { 
     try {
         const locationData : Partial<Location>  = req.body;
@@ -50,6 +50,7 @@ router.post('/', async (req: Request, res: Response) => {
     }
 });
 
+// Route to get a location
 router.get('/', async (req: Request, res: Response) => {
     try {
         const location = await locationController.getLocation(req.body);        
@@ -61,6 +62,7 @@ router.get('/', async (req: Request, res: Response) => {
     }
 });
 
+// Route to search for a location
 router.get('/search', async (req: Request, res: Response) => {
     try {
         const { query, has_office, lat, long, radius , page, pageSize} = req.query;

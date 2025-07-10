@@ -1,6 +1,4 @@
-import { time } from 'console';
 import pool from '../db/db';
-import { updateById } from '../db/utils';
 import { Location, SearchLocationFilters, PaginatedResult } from '../models/interfaces';
 
 

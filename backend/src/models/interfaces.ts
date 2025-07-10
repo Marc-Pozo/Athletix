@@ -79,23 +79,3 @@ export type SessionValidationResult =
     | { session: null; user: null };
 
 
-
-export function sanitizeUserData(user: User) {
-    return {
-        id: user.id,
-        email: user.email,
-        display_name: user.display_name,
-        first_name: user.first_name,
-        last_name: user.last_name,
-        username: user.username,
-        date_of_birth: user.date_of_birth,
-        sports_preferences: user.sports_preferences,
-        profile_pic: user.profile_pic,
-        location: user.location,
-        visibility: user.visibility,
-        is_oauth: user.is_oauth,
-        created_at: user.created_at,
-        updated_at: user.updated_at
-    };
-}
-

@@ -2,10 +2,9 @@ import db from '../db/db';
 import bcrypt from 'bcrypt';
 import {
     User,
-    sanitizeUserData,
     Session
 } from '../models/interfaces';
-import { updateById } from '../db/utils';
+import { updateById, sanitizeUserData } from '../utils/utils';
 import { SessionController } from './session.controller';
 
 const SALT_ROUNDS = 10;
@@ -182,8 +181,6 @@ export class UserController {
 
     }
 
-    // Search users by username, returns users that include the username as a substring
-    // This is useful for autocomplete or search functionality
     public async getUsersByUsername(username: string): Promise<Partial<User>[] | null> {
         try {
             console.log(`[UserController/getUserByUsername] Fetching user with username: ${username}`);
@@ -205,7 +202,7 @@ export class UserController {
             throw new Error('Database query failed');
         }
     }
-    // Modify user
+    
     public async updateUser(userId: number, userData: Partial<User>): Promise<Partial<User> | null> {
         try {
             console.log(`[UserController/updateUser] Updating user with ID: ${userId}`);
@@ -221,7 +218,7 @@ export class UserController {
             throw new Error('Database query failed');
         }
     }
-    // Delete user
+    
     public async deleteUser(userId: number): Promise<boolean> {
         try {
             console.log(`[UserController/deleteUser] Deleting user with ID: ${userId}`);
