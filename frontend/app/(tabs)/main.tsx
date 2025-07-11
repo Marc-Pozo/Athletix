@@ -3,7 +3,6 @@ import { styles } from '@/constants/styles';
 import Footer from '@/components/main/Footer';
 import Home from '@/components/main/Home';
 import Discover from '@/components/main/Discover';
-import Session from '@/components/main/Session';
 import Stats from '@/components/main/Stats';
 import Profile from '@/components/main/Profile';
 import { User } from '@/constants/interfaces';
@@ -43,7 +42,6 @@ export default function Main() {
       <View style={[styles.container,{ marginTop: 48}]}>
         {navigation === 0 && <Home />}
         {navigation === 1 && <Discover lat={user?.location?.[0] || ''} long={user?.location?.[1] || ''} token={token as string} />}
-        {navigation === 2 && <Session />}
         {navigation === 3 && <Stats />}
         {navigation === 4 && <Profile user={user}/>}
       </View>

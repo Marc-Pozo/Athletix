@@ -1,8 +1,9 @@
 import React from 'react';
 import { 
     View,  
-    Button, 
-    Alert 
+    Text, 
+    Alert, 
+    TouchableOpacity
 } from 'react-native';
 import * as LocationType from 'expo-location';
 
@@ -23,8 +24,10 @@ export default function Location({ setLocation }: Props) {
     };
 
     return (
-        <View style={{ padding: 20 }}>
-            <Button title="Get Location" onPress={getLocation} />
-        </View>
+        <TouchableOpacity onPress={getLocation} style={{ marginTop:16, paddingVertical:16, backgroundColor: '#fff', borderRadius: 64, width: 175, alignSelf:'center'}} >
+            <Text style={{color:'#007AFF',textAlign:"center", fontSize:20}}>
+                Get Location
+            </Text>
+        </TouchableOpacity>
     );
 }

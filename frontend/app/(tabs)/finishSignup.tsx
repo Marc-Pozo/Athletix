@@ -89,13 +89,20 @@ export default function FinishSignup() {
 
     return (
         <Screen screenPadding={24}>
+            <Text style={[styles.title,]}>
+                Finish Signup
+            </Text>
+            
             <View style={{ flex: 1, justifyContent: 'flex-start' }}>
+                <Text style={[styles.text, {marginBottom: 8}]}>
+                    Enter your date of birth
+                </Text>
                 <DateOfBirthPicker
                     value={dob}
                     onChange={setDob}
                     placeholder="Date of Birth (YYYY-MM-DD)"
                 />
-                <Text style={styles.text}>
+                <Text style={[styles.text, {marginTop: 8, marginBottom:0}]}>
                     Pick some sports you commonly play
                 </Text>
                 <SportsSelector selected={selectedSports} onToggle={toggleSport}/>

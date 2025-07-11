@@ -7,10 +7,10 @@ export class LocationController {
     public async createLocation(location : Partial<Location>): Promise<Location> {
         try {
             const {
+                id,
                 name,
                 address,
                 sports_offered,
-                has_office,
                 lat,
                 long,
                 image_uri
@@ -22,17 +22,17 @@ export class LocationController {
 
             const result = await pool.query(
                 `INSERT INTO locations (
-                    name, address, sports_offered, 
-                    has_office, lat, long,
+                    id, name, address, sports_offered, 
+                     lat, long,
                     created_at, updated_at, image_uri
                 ) VALUES (
                     $1, $2, $3, $4, $5, $6, $7, $8, $9
                 ) RETURNING *`,
                 [
+                    id,
                     name,
                     address,
                     sports_offered,
-                    has_office,
                     lat,
                     long,
                     timestamp,
@@ -92,7 +92,6 @@ export class LocationController {
 
     public async searchLocations(filters : SearchLocationFilters): Promise<PaginatedResult<Location>> {
         try {
-
             console.log(`[LocationController/searchLocations] Searching with these filters ${filters.query}`);
             let baseQuery = `SELECT * FROM locations`;
             let countQuery = `SELECT COUNT(*) FROM locations`;
@@ -109,24 +108,35 @@ export class LocationController {
                 values.push(`{${filters.sports_offered.join(',')}}`);
             }
 
-            if (typeof filters.has_office === 'boolean') {
-                whereClauses.push(`has_office = $${values.length + 1}`);
-                values.push(filters.has_office);
+            let distanceSelect = '';
+            let distanceOrder = '';
+            if (filters.lat !== undefined && filters.long !== undefined && filters.radius !== undefined) {
+                // Calculate distance in miles using Haversine formula
+                distanceSelect = `,
+                    (
+                        3959 * acos(
+                            cos(radians($${values.length + 1})) * 
+                            cos(radians(lat)) *
+                            cos(radians(long) - radians($${values.length + 2})) +
+                            sin(radians($${values.length + 1})) *
+                            sin(radians(lat))
+                        )
+                    ) AS distance
+                `;
+                whereClauses.push(`(
+                    3959 * acos(
+                        cos(radians($${values.length + 1})) * 
+                        cos(radians(lat)) *
+                        cos(radians(long) - radians($${values.length + 2})) +
+                        sin(radians($${values.length + 1})) *
+                        sin(radians(lat))
+                    )
+                ) < $${values.length + 3}`);
+                values.push(filters.lat, filters.long, filters.radius);
+
+                distanceOrder = ' ORDER BY distance ASC';
             }
 
-            if (filters.lat !== undefined && filters.long !== undefined && filters.radius !== undefined) {
-                whereClauses.push(`(
-                3959 * acos(
-                    cos(radians($${values.length + 1})) * 
-                    cos(radians(lat)) *
-                    cos(radians(long) - radians($${values.length + 2})) +
-                    sin(radians($${values.length + 1})) *
-                    sin(radians(lat))
-                )
-                ) < $${values.length + 3}`);
-                
-                values.push(filters.lat, filters.long, filters.radius);
-            }
             const whereSQL = whereClauses.length > 0 ? ` WHERE ${whereClauses.join(' AND ')}` : '';
 
             // get total count first
@@ -138,9 +148,16 @@ export class LocationController {
             const pageSize = filters.pageSize && filters.pageSize > 0 ? filters.pageSize : 10;
             const offset = (page - 1) * pageSize;
 
-            // final query with LIMIT and OFFSET
-            const dataQuery = `${baseQuery}${whereSQL} LIMIT $${values.length + 1} OFFSET $${values.length + 2}`;
+            // final query with distance, ORDER BY, LIMIT and OFFSET
+            const dataQuery = `
+                SELECT *${distanceSelect} FROM locations
+                ${whereSQL}
+                ${distanceOrder}
+                LIMIT $${values.length + 1} OFFSET $${values.length + 2}
+            `;
             const dataResult = await pool.query(dataQuery, [...values, pageSize, offset]);
+
+            console.log(`[LocationController/searchLocations] ${dataResult.rows.length} locations returned`);
 
             return {
                 data: dataResult.rows,

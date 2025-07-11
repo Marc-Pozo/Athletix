@@ -11,7 +11,6 @@ const createLocationSchema = z.object({
     name: z.string().min(1, "Name is required"),
     address: z.string().min(1, "Address is required"),
     sports_offered: z.array(z.string().min(1, "Sport must be valid")).min(1, "At least one sport must be offered"),
-    has_office: z.boolean(),
     lat: z.number(),
     long: z.number(),
     image_uri: z.string().min(1, "Image")
@@ -65,7 +64,7 @@ router.get('/', async (req: Request, res: Response) => {
 // Route to search for a location
 router.get('/search', async (req: Request, res: Response) => {
     try {
-        const { query, has_office, lat, long, radius , page, pageSize} = req.query;
+        const { query, lat, long, radius , page, pageSize} = req.query;
         let sports_offered: string[] | undefined;
 
         if (typeof req.query.sports_offered === 'string') {
@@ -77,7 +76,6 @@ router.get('/search', async (req: Request, res: Response) => {
         const searchFilters = {
             query,
             sports_offered,
-            has_office,
             lat,
             long,
             radius,

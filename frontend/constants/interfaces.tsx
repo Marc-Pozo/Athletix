@@ -19,12 +19,12 @@ export interface Location {
     name: string;
     address: string;
     sports_offered: string[];
-    has_office: boolean;
     lat: number;
     long: number;
     created_at: Date;
     updated_at: Date;
     image_uri: string;
+    place_id: string;
 }
 
 

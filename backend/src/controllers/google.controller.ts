@@ -10,7 +10,7 @@ const sessionController = new SessionController();
 passport.use(new Strategy({
     clientID: process.env.GOOGLE_CLIENT_ID || '',
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-    callbackURL: "https://c79497e15f2c.ngrok-free.app/api/auth/google/callback"
+    callbackURL: "https://c8f9e2ecb687.ngrok-free.app/api/auth/google/callback"
   },
   async function(accessToken, refreshToken, profile, cb) {
      
@@ -32,20 +32,18 @@ passport.use(new Strategy({
         location: ['', ''],
       };
       const userSession = await userController.createGoogleUser(newUser);
-      return cb(null, {...newUser, ...userSession});
+      return cb(null, {userExists : false, ...userSession});
     }
-    console.log('User already exists:', user);
 
     // If user exists, check if they have an active session
     const userSession = await sessionController.getSessionByUserId(user.id);
     // If no session exists, create a new session
     if (!userSession) {
-      console.log('No session found for user, creating a new one');
       const newSession = await sessionController.createSession(sessionController.generateSessionToken(), user.id);
-      return cb(null, {...user, ...newSession});
+      return cb(null, {userExists : true, ...newSession});
     }
 
-    return cb(null, {...user, ...userSession});
+    return cb(null, {userExists : true, ...userSession});
   }
 ));
 
@@ -58,8 +56,6 @@ export const googleAuthCallback = [
     passport.authenticate('google', { failureRedirect: '/login', session: false }),
     (req: any, res: any) => {
         // Successful authentication
-        console.log('Google authentication successful:', req.user);
-
-        res.redirect(`Athletix://redirect?token=${req.user.token}`);
+        res.redirect(`Athletix://redirect?token=${req.user.token}&userExists=${req.user.userExists}&user_id=${req.user.user_id}`);
     }
 ];

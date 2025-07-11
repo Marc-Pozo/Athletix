@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useRouter } from 'expo-router';
 import { styles } from '@/constants/styles';
 import { storeTokenSecurely, verifySecureToken } from '@/utils/TokenStorage';
@@ -9,7 +9,8 @@ import {
   Text,
   TextInput,
   TouchableOpacity,
-  View
+  View,
+  Animated
 } from 'react-native';
 
 export default function LoginScreen() {
@@ -18,6 +19,19 @@ export default function LoginScreen() {
   const [password, setPassword] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+
+  const fadeAnim = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(
+      fadeAnim,
+      {
+        toValue: 1,
+        duration: 2000,
+        useNativeDriver: true
+      }
+    ).start();
+  }, [fadeAnim]);
 
   // Handle login logic
   // Sends a POST request to the backend with email and password
@@ -82,7 +96,8 @@ export default function LoginScreen() {
   
   return (
     <Screen screenPadding={24}>
-      <Image
+      <Animated.View style={{opacity:fadeAnim}}>
+        <Image
           source={require('../../assets/images/logo.png')}
           style={{ width: 200 , height: 200, alignSelf: 'center', marginBottom: 30 }}
         />
@@ -161,6 +176,7 @@ export default function LoginScreen() {
             </View>
           </View>
         )}        
+      </Animated.View>      
     </Screen>
   );
 }

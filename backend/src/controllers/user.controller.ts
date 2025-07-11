@@ -172,7 +172,7 @@ export class UserController {
                 console.warn(`[UserController/getUserByEmail] No user found with email: ${email}`);
                 return null;
             }
-
+            console.log(`[UserController/getUserByEmail] User found for ${email}`);
             return sanitizeUserData(result.rows[0] as User);
         } catch (error) {
             console.error(`[UserController/getUserById] Error fetching user with email ${email}:`, error);

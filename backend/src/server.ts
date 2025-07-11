@@ -6,6 +6,7 @@ import userRoute from './routes/user.routes';
 import postRoute from './routes/post.routes';
 import backblazeRoute from './routes/backblaze.routes'
 import locationRoute from './routes/location.routes'
+import {uploadBatchAreas} from './utils/uploadLocationData'
 import { tokenMiddleware } from './middleware/token.middleware';
 
 const app = express();
@@ -27,4 +28,5 @@ const PORT = process.env.PORT || 3001;
 
 app.listen(PORT, () => {
   console.log(`Server running on http://localhost:${PORT}`);
+  //uploadBatchAreas();
 });

@@ -13,6 +13,7 @@ import { useDebounce } from '@/hooks/DebounceHook';
 import { Location } from '@/constants/interfaces';
 import Filters  from '@/components/discover/Filters'
 
+
 interface Props{
   lat: string,
   long: string,
@@ -23,7 +24,6 @@ export default function Discover({ lat, long, token } : Props) {
 
   const [query, setQuery] = useState('');
   const debouncedQuery = useDebounce(query, 500);
-  const [has_office, setHasOffice] = useState(null);
   const [radius, setRadius] = useState(1000);
   const [pageSize, setPageSize] = useState(10);
   const [page, setPage] = useState(0);
@@ -113,10 +113,10 @@ export default function Discover({ lat, long, token } : Props) {
         {showFilters && <Filters/>}
       <ScrollView style={{
         flex: 1,
-        paddingVertical: 8,
+        paddingVertical: 12,
         backgroundColor: 'rgb(48, 42, 42)',
         flexDirection: 'column',
-        borderRadius: 16,
+        borderRadius: 16
       }}>
         {locations.length === 0 ? (
           <Text style={{ color: 'white', alignSelf: 'center', marginTop: 20 }}>
@@ -124,10 +124,14 @@ export default function Discover({ lat, long, token } : Props) {
           </Text>
         ) : (
           locations.map((location) => (
-            <DiscoverCard key={location.id} location={location} />
+            <DiscoverCard key={location.id} location={location} lat={lat} long={long}/>
           ))
         )}    
+        <View style={{minHeight:100}}>
+
+        </View>
       </ScrollView>
+
     </View>
   );
 }

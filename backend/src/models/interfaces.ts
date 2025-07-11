@@ -46,19 +46,17 @@ export interface Location {
     name: string;
     address: string;
     sports_offered: string[];
-    has_office: boolean;
     lat: number;
     long: number;
+    image_uri: string;
     created_at: Date;
     updated_at: Date;
-    image_uri: string;
 }
 
 
 export interface SearchLocationFilters {
     query?: string;
     sports_offered?: string[];
-    has_office?: boolean;
     lat?: number;
     long?: number;
     radius?: number;

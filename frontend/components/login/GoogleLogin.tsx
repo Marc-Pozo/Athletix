@@ -16,20 +16,20 @@ export default function GoogleLogin() {
                 'http://192.168.1.65:3000/api/auth/google', 
                 'Athletix://redirect'
             );
+
             // Check if the result is successful
             if (result.type === 'success' && result.url) {
                 const url = new URL(result.url);
+                const userExists = url.searchParams.get('userExists');
+                const user_id = url.searchParams.get('user_id')
                 const token = url.searchParams.get('token');
                 if(!token) {
                     console.error('No token found in the redirect URL');
                     return;
                 }
-                // Store the token securely
-                console.log('Google login successful, token:', token);
                 // You can now store the token securely
                 storeTokenSecurely(token);
-                console.log('Login success');
-                router.replace({ pathname: '/finishSignup', params: { token } });
+                router.replace({ pathname: userExists === 'true' ? '/main':'/finishSignup', params: { token, user_id } });
             }
             else if (result.type === 'cancel' || result.type === 'dismiss') {
                 console.log('User cancelled the login');

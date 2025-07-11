@@ -1,16 +1,13 @@
 import React, { useState } from 'react';
 import { styles } from '../../constants/styles';
 import SportsSelector from '../common/SportsSelector';
-import SwitchWrapper from '../common/SwitchWrapper';
 import {
   Text,
   View,
   TextInput,
-  Keyboard
 } from 'react-native';
 
 export default function Filters() {
-    const [hasOffice, setHasOffice] = useState(false);
     const [radius, setRadius] = useState('10');
     const [selectedSports, setSelectedSports] = useState<Set<string>>(new Set());
     
@@ -62,7 +59,6 @@ export default function Filters() {
                         gap: 10 
                 }}>
                     
-                    <SwitchWrapper message={"Has Office:"} setIsEnabled={setHasOffice} isEnabled={hasOffice}/>  
                     <Text style={[styles.text, {
                         alignSelf:"center",
                         color:'#fff',
