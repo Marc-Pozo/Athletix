@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { Dispatch, SetStateAction, useState } from 'react';
 import { styles } from '../../constants/styles';
 import SportsSelector from '../common/SportsSelector';
 import {
@@ -7,8 +7,12 @@ import {
   TextInput,
 } from 'react-native';
 
-export default function Filters() {
-    const [radius, setRadius] = useState('10');
+interface Props {
+    radius: string,
+    setRadius: Dispatch<SetStateAction<string>>
+}
+
+export default function Filters({radius, setRadius} : Props) {
     const [selectedSports, setSelectedSports] = useState<Set<string>>(new Set());
     
     const toggleSport = (sport: string) => {
@@ -81,11 +85,10 @@ export default function Filters() {
                         keyboardType='number-pad'
                         autoCapitalize="none"
                         returnKeyType='done'
-                        value={radius}
-                        onChangeText={setRadius}
+                        value={radius.toString() != 'NaN' ? radius.toString() : ''}
+                        onChangeText={(value : string)=> {setRadius(value)}}
                     />
-                </View>                
-                
+                </View>    
             </View>  
             <SportsSelector selected={selectedSports} onToggle={toggleSport}/>   
         </View>

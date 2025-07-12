@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { styles } from '../../constants/styles';
-import ProfilePhotoPicker from '../pickers/ImagePicker';
+import ProfilePhotoPicker from '../pickers/ProfilePhotoPicker';
 import ErrorMessage from '../common/ErrorMessage';
 import SwitchWrapper from '../common/SwitchWrapper';
 import SportsSelector from '../common/SportsSelector';

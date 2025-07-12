@@ -75,11 +75,11 @@ router.get('/username/:username', async (req: Request, res: Response) => {
         const username = req.params.username;
         const users = await userController.getUsersByUsername(username) as Partial<User[]>; // Assuming getUserById can handle username
 
-        if (!users || users.length === 0) {
+        if (!users) {
             res.status(404).json({ message: 'User not found' });
             return;
         }
-        console.log(`Users with username ${username} retrieved successfully`);
+        console.log(` ${users.length} Users with username ${username} retrieved successfully`);
         res.status(200).json(users);
         return;        
     } catch (error) {

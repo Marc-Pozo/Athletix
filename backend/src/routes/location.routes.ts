@@ -76,12 +76,15 @@ router.get('/search', async (req: Request, res: Response) => {
         const searchFilters = {
             query,
             sports_offered,
-            lat,
-            long,
-            radius,
+            lat:  parseFloat(lat as string),
+            long:  parseFloat(long as string),
+            radius: parseInt(radius as string),
             page,
             pageSize
         } as SearchLocationFilters
+
+        console.log(long);
+
 
         if (!searchFilters)
         {

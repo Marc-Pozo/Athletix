@@ -12,7 +12,6 @@ export default function Home() {
       <Text style={[styles.title, {marginBottom: 0}]}>Home</Text>
       <View style={{
         flex: 1,
-        backgroundColor: 'rgb(48, 42, 42)',
         borderRadius: 16,
         marginTop: 16
       }}>

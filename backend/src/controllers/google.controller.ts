@@ -10,7 +10,7 @@ const sessionController = new SessionController();
 passport.use(new Strategy({
     clientID: process.env.GOOGLE_CLIENT_ID || '',
     clientSecret: process.env.GOOGLE_CLIENT_SECRET || '',
-    callbackURL: "https://c8f9e2ecb687.ngrok-free.app/api/auth/google/callback"
+    callbackURL: "https://a28d0929f681.ngrok-free.app/api/auth/google/callback"
   },
   async function(accessToken, refreshToken, profile, cb) {
      

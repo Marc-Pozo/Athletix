@@ -31,6 +31,7 @@ export class UserController {
                 sports_preferences,
                 location,
                 visibility,
+                skill_level
             } = data as User;
             
             const hashedPassword = await bcrypt.hash(password, SALT_ROUNDS);
@@ -43,11 +44,11 @@ export class UserController {
                 `INSERT INTO users (
                     email, password, display_name, first_name, last_name,
                     username, date_of_birth, created_at, updated_at,
-                    profile_pic, sports_preferences, location, visibility, is_oauth
+                    profile_pic, sports_preferences, location, visibility, is_oauth, skill_level
                 ) VALUES (
                     $1, $2, $3, $4, $5,
                     $6, $7, $8, $9,
-                    $10, $11::text[], $12, $13, $14
+                    $10, $11::text[], $12, $13, $14, $15
                 ) RETURNING *`,
                 [
                     normalizedEmail,
@@ -63,7 +64,8 @@ export class UserController {
                     Array.isArray(sports_preferences) ? sports_preferences : [],
                     location,
                     visibility,
-                    false
+                    false,
+                    skill_level
                 ]
             );
 
@@ -191,7 +193,7 @@ export class UserController {
 
             if (result.rows.length === 0) {
                 console.warn(`[UserController/getUserByUsername] No user found with username: ${username}`);
-                return null;
+                return [];
             }
 
             const users = result.rows.map( user => sanitizeUserData(user));

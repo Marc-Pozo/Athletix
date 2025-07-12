@@ -18,7 +18,7 @@ const { GOOGLE_API_KEY, PHOTO_URL } = Constants.expoConfig?.extra || {};
 
 export default function LocationInfo() {
     const location = useLocationStore(state => state.selectedLocation);
-    const [activeTab, setActiveTab] = useState<'feed' | 'posts'>('feed');
+    const [activeTab, setActiveTab] = useState<'activity' | 'feed'>('activity');
     const router = useRouter();
 
 
@@ -44,7 +44,7 @@ export default function LocationInfo() {
                     <Image
                         source={{ uri: `${PHOTO_URL}${location.image_uri}&key=${GOOGLE_API_KEY}` }}
                         style={{
-                            width: '100%',
+                            width: '95%',
                             height: 220,
                             borderRadius: 24,
                         }}
@@ -74,6 +74,23 @@ export default function LocationInfo() {
                             flex: 1,
                             paddingVertical: 10,
                             borderRadius: 8,
+                            backgroundColor: activeTab === 'activity' ? '#fff' : 'transparent',
+                        }}
+                        onPress={() => setActiveTab('activity')}
+                    >
+                        <Text style={{
+                            textAlign: 'center',
+                            color: activeTab === 'activity' ? '#181A20' : '#A0A3B1',
+                            fontWeight: '600'
+                        }}>
+                            Activity
+                        </Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity
+                        style={{
+                            flex: 1,
+                            paddingVertical: 10,
+                            borderRadius: 8,
                             backgroundColor: activeTab === 'feed' ? '#fff' : 'transparent',
                         }}
                         onPress={() => setActiveTab('feed')}
@@ -86,33 +103,16 @@ export default function LocationInfo() {
                             Feed
                         </Text>
                     </TouchableOpacity>
-                    <TouchableOpacity
-                        style={{
-                            flex: 1,
-                            paddingVertical: 10,
-                            borderRadius: 8,
-                            backgroundColor: activeTab === 'posts' ? '#fff' : 'transparent',
-                        }}
-                        onPress={() => setActiveTab('posts')}
-                    >
-                        <Text style={{
-                            textAlign: 'center',
-                            color: activeTab === 'posts' ? '#181A20' : '#A0A3B1',
-                            fontWeight: '600'
-                        }}>
-                            Posts
-                        </Text>
-                    </TouchableOpacity>
                 </View>
                 {/* Tab Content */}
                 <View style={{ flex: 1, marginHorizontal: 24 }}>
-                    {activeTab === 'feed' ? (
+                    {activeTab === 'activity' ? (
                         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                            <Text style={{ color: '#A0A3B1', fontSize: 16 }}>Feed content goes here.</Text>
+                            <Text style={{ color: '#A0A3B1', fontSize: 16 }}>Activity content goes here.</Text>
                         </View>
                     ) : (
                         <View style={{ alignItems: 'center', justifyContent: 'center', flex: 1 }}>
-                            <Text style={{ color: '#A0A3B1', fontSize: 16 }}>Posts content goes here.</Text>
+                            <Text style={{ color: '#A0A3B1', fontSize: 16 }}>Feed content goes here.</Text>
                         </View>
                     )}
                 </View>
@@ -120,7 +120,7 @@ export default function LocationInfo() {
                 <View style={{ padding: 24, backgroundColor: 'transparent' }}>
                     <TouchableOpacity
                         style={{
-                            backgroundColor: '#147efb',
+                            backgroundColor: '#a61e1e',
                             paddingVertical: 16,
                             borderRadius: 12,
                             alignItems: 'center',
@@ -131,7 +131,7 @@ export default function LocationInfo() {
                         }}
                         onPress={() => { router.push('/post') }}
                     >
-                        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>Post</Text>
+                        <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>Start Session</Text>
                     </TouchableOpacity>
                 </View>
             </SafeAreaView>

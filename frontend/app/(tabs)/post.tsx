@@ -1,20 +1,33 @@
 import React, { useState, useEffect } from 'react';
 import { styles } from '../../constants/styles';
-import { useLocalSearchParams, useRouter } from 'expo-router';
+import { useRouter } from 'expo-router';
 import BackArrow from '@/components/common/BackArrow';
 import { useLocationStore } from '@/utils/LocationStore';
 import Screen from '@/components/common/Screen';
+import Constants from 'expo-constants';
+import { Picker } from '@react-native-picker/picker';
+import { sportsList } from '@/constants/interfaces';
 import {
   Text,
   View,
-  TouchableOpacity
+  Image,
+  TouchableOpacity,
+  TextInput,
+  Alert,
 } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
+
+const { GOOGLE_API_KEY } = Constants.expoConfig?.extra || {};
 
 export default function Session() {
-  const {place_id, name} = useLocalSearchParams();
+  const location = useLocationStore(state => state.selectedLocation);
   const [timer, setTimer] = useState(0);
   const [isRunning, setIsRunning] = useState(false);
+  const [people, setPeople] = useState('');
+  const [waitTime, setWaitTime] = useState('');
+  const [sport, setSport] = useState('');
+
+  const mapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=${location?.lat},${location?.long}&zoom=15&size=400x400&markers=color:red%7C${location?.lat},${location?.long}&key=${GOOGLE_API_KEY}`;
+
   
   const router = useRouter();
 
@@ -50,53 +63,190 @@ export default function Session() {
   }
 
   const onFinishPress = () => {
-    // TODO: This will take the user to the flow to finish their post
-    router.replace('/main');
+
+    const numPeople = parseInt(people);
+    if(!numPeople)
+    {
+      Alert.alert("Please input the number of people.")
+      return;
+    }
+
+    router.replace({pathname: '/finishPost', params: {time : formatTime(timer), numPeople, waitTime, sport}});
   }
 
   return (
-    <Screen screenPadding={0} >
-      <SafeAreaView style={styles.safeArea}>
-          <BackArrow onBackButtonPress={onBackButtonPress}/>
-          <Text style={[styles.title, {marginHorizontal:16 , borderBottomColor:'#fff', borderBottomWidth:1}]}>{name}</Text>
-          <Text style={{textAlign:'center', fontSize: 60, color:'#fff', }}>{formatTime(timer)}</Text>
-            <View style={{ padding: 24, backgroundColor: 'transparent' }}>
-                <TouchableOpacity
-                    style={{
-                      backgroundColor: isRunning ? '#fc3d39':'#53d769',
-                      paddingVertical: 16,
-                      borderRadius: 12,
-                      alignItems: 'center',
-                      shadowOffset: { width: 0, height: 4 },
-                      shadowOpacity: 0.3,
-                      shadowRadius: 8,
-                      elevation: 4,
-                    }}
-                    onPress={handleSessionChange}
-                >
-                    <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>{isRunning ? 'Stop Session' : 'Start Session'}</Text>
-                </TouchableOpacity>
-                {isRunning && (
-                  <TouchableOpacity
-                    style={{
-                      backgroundColor: '#53d769',
-                      paddingVertical: 16,
-                      borderRadius: 12,
-                      alignItems: 'center',
-                      shadowOffset: { width: 0, height: 4 },
-                      shadowOpacity: 0.3,
-                      shadowRadius: 8,
-                      elevation: 4,
-                      marginTop: 16
-                    }}
-                    onPress={onFinishPress}
-                >
-                    <Text style={{ color: '#fff', fontWeight: 'bold', fontSize: 18 }}>Finish?</Text>
-                </TouchableOpacity>
-                )}
-            </View>
-      </SafeAreaView>
-    </Screen>
-    
+    <View style={styles.safeArea}>
+      <Screen screenPadding={0}>
+      {/* Header */}
+      <View style={{
+        height: 35,
+        flexDirection: 'row',
+        alignItems: 'center',
+        marginTop: 8,
+        marginBottom: 16,
+        justifyContent: 'center'
+      }}>
+        <BackArrow onBackButtonPress={onBackButtonPress} />
+        <View style={{
+        flex: 1,
+        alignItems: 'center',
+        justifyContent: 'center',
+        position: 'absolute',
+        left: 0,
+        right: 0
+        }}>
+        <Text style={[
+          styles.title,
+          { marginBottom: 0, textAlign: 'center' }
+        ]}>
+          Post
+        </Text>
+        </View>
+      </View>
+
+      {/* Map */}
+      <Image
+        source={{ uri: mapUrl }}
+        style={{
+        width: 400,
+        height: 250,
+        borderColor: '#a61e1e',
+        borderWidth: 2,
+        borderRadius: 16,
+        alignSelf: 'center'
+        }}
+      />
+
+      {/* Location Name */}
+      <Text style={[
+        styles.title,
+        {
+        color: '#a61e1e',
+        marginHorizontal: 16,
+        borderBottomColor: '#fff',
+        paddingBottom: 8,
+        borderBottomWidth: 1,
+        marginVertical: 8
+        }
+      ]}>
+        {location?.name}
+      </Text>
+
+      {/* Timer */}
+      <View style={{ flex: 1, justifyContent: 'flex-start', marginTop: 8 }}>
+        <Text style={{
+        textAlign: 'center',
+        fontSize: 60,
+        color: '#fff',
+        borderColor: '#fff',
+        borderWidth: 2,
+        marginHorizontal: 48,
+        borderRadius: 64
+        }}>
+        {formatTime(timer)}
+        </Text>
+      </View>
+
+      {/* Inputs */}
+      <TextInput
+        style={[styles.input, {color:'#fff' }]}
+        placeholder="Wait Time (Minutes)"
+        placeholderTextColor={'#808080'}
+        keyboardType="number-pad"
+        returnKeyType="done"
+        value={waitTime}
+        onChangeText={setWaitTime}
+      />
+      <TextInput
+        style={[styles.input, { marginTop: 8, color:'#fff' }]}
+        placeholder="Number of People There"
+        value={people}
+        placeholderTextColor={'#808080'}
+        keyboardType="number-pad"
+        returnKeyType="done"
+        onChangeText={setPeople}
+      />
+
+      {/* Sport Picker */}
+      <Picker
+        selectedValue={sport}
+        onValueChange={setSport}
+        style={{
+        flex: 1,
+        justifyContent: 'center',
+        margin: 16,
+        maxHeight: 100,
+        borderColor: '#fff',
+        borderWidth: 1,
+        borderRadius: 16,
+        overflow: 'hidden'
+        }}
+      >
+        {sportsList.map((sport, index) => (
+        <Picker.Item key={index} label={sport} value={sport} />
+        ))}
+      </Picker>
+      </Screen>
+
+      {/* Action Buttons */}
+      <View style={{
+      padding: 24,
+      backgroundColor: 'transparent',
+      flexDirection: 'row',
+      justifyContent: 'space-between'
+      }}>
+      <TouchableOpacity
+        style={{
+        backgroundColor: isRunning ? '#fc3d39' : '#53d769',
+        padding: 16,
+        borderRadius: 12,
+        alignItems: 'center',
+        shadowOffset: { width: 0, height: 4 },
+        shadowOpacity: 0.3,
+        shadowRadius: 8,
+        elevation: 4,
+        marginHorizontal: 8,
+        flex: isRunning ? 0 : 1,
+        width: isRunning ? '45%' : 'auto',
+        marginRight: 8
+        }}
+        onPress={handleSessionChange}
+      >
+        <Text style={{
+        color: '#fff',
+        fontWeight: 'bold',
+        fontSize: 18
+        }}>
+        {isRunning ? 'Stop' : 'Start'}
+        </Text>
+      </TouchableOpacity>
+      {isRunning && (
+        <TouchableOpacity
+        style={{
+          backgroundColor: '#147efb',
+          paddingVertical: 16,
+          width: '45%',
+          borderRadius: 12,
+          alignItems: 'center',
+          shadowOffset: { width: 0, height: 4 },
+          shadowOpacity: 0.3,
+          shadowRadius: 8,
+          elevation: 4,
+          marginHorizontal: 8,
+          marginLeft: 8
+        }}
+        onPress={onFinishPress}
+        >
+        <Text style={{
+          color: '#fff',
+          fontWeight: 'bold',
+          fontSize: 18
+        }}>
+          Finish
+        </Text>
+        </TouchableOpacity>
+      )}
+      </View>
+    </View>
   );
 }

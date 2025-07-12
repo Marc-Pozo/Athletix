@@ -12,6 +12,7 @@ export interface User {
     location: string[] | null;
     visibility: boolean;
     is_oauth: boolean;
+    skill_level: string;
     created_at: Date;
     updated_at: Date;
 }
@@ -19,13 +20,13 @@ export interface User {
 export interface Post {
     id: number;
     user_id: number;
-    location: string;
-    sports: string[];
+    location_id: string;
+    sport: string;
     num_people: number | null;
     wait_time: string | null;
     skill_level: string | null;
     session_length: string;
-    images: string[];
+    content: string[];
     caption: string | null;
     win_loss: number | null;
     games_played: number | null;

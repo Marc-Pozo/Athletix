@@ -13,9 +13,10 @@ router.post('/one', upload.single('file'), async (req, res) => {
             res.status(400).json({ message : 'File not included.' });
             return;
         }
+        const {type, id} = req.query;
 
         const filePath = req.file.path;
-        const fileName = `uploads/${Date.now()}_${req.file.originalname || ''}`;
+        const fileName = `${type}/${id? id+'/' : ''}${Date.now()}_${req.file.originalname || ''}`;
 
         const result = await backblazeController.uploadOneImage(filePath,fileName);
 

@@ -11,7 +11,7 @@ const colors = {
 export const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: colors.secondary,
+    backgroundColor: `#000`,
   },
   container: {
     flex: 1,
@@ -32,19 +32,16 @@ export const styles = StyleSheet.create({
     color: colors.text,
   },
   input: {
-    marginRight: 16,
-    backgroundColor: colors.secondary,
-    paddingHorizontal: 16,
-    marginTop: 24,
-    marginBottom: 8,
+    backgroundColor: '#000',
+    paddingHorizontal: 16,    
+    marginVertical: 8,
     borderRadius: 8,
     borderColor: colors.border,
     outlineColor: colors.border,
     borderWidth: 1,
     fontSize: 20,
-    color: colors.text,
-    height: 50, 
-    width: '100%',
+    height: 50,
+    marginHorizontal: 16
   },
   button: {
     backgroundColor: colors.primary,
@@ -94,9 +91,9 @@ export const styles = StyleSheet.create({
     borderColor: colors.primary,
     shadowColor: colors.primary,
     shadowRadius: 16,
-    shadowOpacity: 0.7,
+    shadowOpacity: 0.4,
     marginHorizontal: 16,
-    borderRadius: 16,
+    borderRadius: 64,
   },
   footerButton: {
     width: '20%',

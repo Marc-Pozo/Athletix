@@ -14,6 +14,7 @@ export async function tokenMiddleware (req : Request, res : Response, next : Nex
     const parts = authHeader.split(' ');
     if (parts.length !== 2 || parts[0] !== 'Bearer')
     {
+        console.error('Invalid token format');
         res.status(401).json({ message: 'Invalid token format' });
         return;
     }

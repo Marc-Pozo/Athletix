@@ -6,7 +6,7 @@ import { updateById } from '../utils/utils';
 export class PostController {
 
     private allowedFields = [
-        'location', 'sports', 'num_people', 'wait_time', 'skill_level',
+        'location', 'sport', 'num_people', 'wait_time', 'skill_level',
         'session_length', 'images', 'caption', 'win_loss', 'games_played', 'visibility'
     ];
 
@@ -14,17 +14,16 @@ export class PostController {
         try {
             const {
                 user_id,
-                location,
-                sports,
+                location_id,
+                sport,
                 num_people,
                 wait_time,
                 skill_level,
                 session_length,
-                images,
+                content,
                 caption,
                 win_loss,
                 games_played,
-                visibility
             } = postData;
 
             const timestamp = new Date();
@@ -32,8 +31,8 @@ export class PostController {
             console.log(`[PostController/createPost] Creating post for user ID: ${user_id}`);
 
             const result = await pool.query(
-                'INSERT INTO posts (user_id, location, sports, num_people, wait_time, skill_level, session_length, images, caption, win_loss, games_played, visibility, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13, $14) RETURNING *',
-                [user_id, location, sports, num_people, wait_time, skill_level, session_length, images, caption, win_loss, games_played, visibility, timestamp, timestamp]
+                'INSERT INTO posts (user_id, location_id, sport, num_people, wait_time, skill_level, session_length, content, caption, win_loss, games_played, created_at, updated_at) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12, $13) RETURNING *',
+                [user_id, location_id, sport, num_people, wait_time, skill_level, session_length, content, caption, win_loss, games_played, timestamp, timestamp]
             );
 
             if (result.rows.length === 0) {
@@ -52,7 +51,7 @@ export class PostController {
         try {
             console.log(`[PostController/getPostsByUserId] Fetching posts for user ID: ${userId}`);
             const result = await pool.query(
-                'SELECT * FROM posts WHERE user_id = $1',
+                'SELECT * FROM posts WHERE user_id = $1 ORDER BY created_at DESC',
                 [userId]
             );
 
